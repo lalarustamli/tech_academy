@@ -19,7 +19,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for course in courseData %}
+            {% for course in data %}
             <tr>
                 <td scope='row'>{{ course['courseID'] }}</td>
                 <td>{{ course['title'] }}</td>
@@ -27,7 +27,13 @@
                 <td>{{ course['credits'] }}</td>
                 <td>{{ course['term'] }}</td>
                 <td>
-                    <button>Enroll</button>
+                    <form action="{{ url_for('enrollment') }}" method="POST">
+                        <input type="hidden" name="courseID" value="{{ course['courseID'] }}">
+                        <input type="hidden" name="title" value="{{ course['title'] }}">
+                        <input type="hidden" name="term" value="{{ course['term'] }}">
+                        <button>Enroll</button>
+                    </form>
+
                 </td>
             </tr>
             {% endfor %}
