@@ -1,5 +1,6 @@
 from flask import render_template, request, json, Response
-from models import User, Course, Enrollment
+from .models import User, Course, Enrollment
+from .forms import LoginForm
 from . import app, db
 
 
@@ -9,9 +10,10 @@ def index():
     return render_template("index.html", index=True)
 
 
-@app.route("/login")
+@app.route("/login", methods=["GET","POST"])
 def login():
-    return render_template("login.html", login=True)
+    form=LoginForm()
+    return render_template("login.html", form=form, login=True)
 
 
 @app.route("/register")
