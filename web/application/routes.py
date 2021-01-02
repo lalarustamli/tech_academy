@@ -1,6 +1,6 @@
 from flask import render_template, request, json, Response
-
-from . import app
+from models import User, Course, Enrollment
+from . import app, db
 
 
 @app.route("/")
@@ -50,3 +50,11 @@ def api(idx=None):
         jdata = courseData[int(idx)]
 
     return Response(json.dumps(jdata),mimetype="application/json")
+
+
+
+@app.route("/user")
+def user():
+    User(user_id=1,first_name="Ivan",last_name="Ivanich",email="iveniv",password="12345").save()
+    users = User.objects.all()
+    return render_template("user.html",users=users)
