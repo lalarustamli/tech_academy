@@ -3,11 +3,35 @@
 {% block content %}
     <div class="row">
         <div class="col-md-12 text-center">
-            <h1>You are enrolled</h1>
-            <p>Course ID: {{ data.id }}</p>
-            <p>Course ID: {{ data.title }}</p>
-            <p>Course ID: {{ data.term }}</p>
-            </div>
+            {% if not data %}
+                <h3>You are not enrolled in any classes</h3>
+            {% else %}
+                <h3>You are enrolled in:</h3>
+
+           <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Course ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Credits</th>
+                <th scope="col">Term</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for course in data %}
+            <tr>
+                <td scope='row'>{{ course['courseID'] }}</td>
+                <td>{{ course['title'] }}</td>
+                <td>{{ course['description'] }}</td>
+                <td>{{ course['credits'] }}</td>
+                <td>{{ course['term'] }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+            {% endif %}
+        </div>
     </div>
 
 {% endblock %}

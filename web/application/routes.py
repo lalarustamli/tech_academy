@@ -64,14 +64,18 @@ def courses(term="Resul 2021"):
 
 @app.route("/enrollment", methods=["GET", "POST"])
 def enrollment():
-    id = request.form.get('courseID')
-    title = request.form.get('title')
+    CourseId = request.form.get('courseID')
+    CourseTitle = request.form.get('title')
+    user_id = 1
+    if CourseId:
+        if Enrollment.objects(user_id=user_id, course_id=CourseId):
+            flash(f"You have already enrolled to {CourseTitle}")
+            return redirect("/courses")
+        else:
+            Enrollment(user_id=user_id, course_id=CourseId)
+            flash(f"You are enrolled! Congrats")
     term = request.form.get('term')
-    course = {
-        "id": id,
-        "title": title,
-        "term": term
-    }
+    course=None
     return render_template("enrollment.html", enrollment=True, data=course)
 
 @app.route("/api/")
