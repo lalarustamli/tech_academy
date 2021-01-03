@@ -2,11 +2,11 @@
     {% extends "layout.html" %}
    
     {% block content %}
-    <h2>New User Registration</h2>
 
     <div class="container">
-        <form name="register" action="" method="post">
-
+         <form name="login" action="" method="post" novalidate>
+        <fieldset class="form-group">
+            <legend>Register</legend>
             {{ form.hidden_tag() }}
                 <p> {{ form.email.label }}</br>
                     {{ form.email }}
@@ -46,6 +46,8 @@
                 <p>
                     {{ form.submit() }}
                 </p>
+
+        </fieldset>
         </form>
     </div>
     {% endblock %}

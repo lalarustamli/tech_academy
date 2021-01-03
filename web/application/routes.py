@@ -28,20 +28,30 @@ def login():
 @app.route("/register", methods=["GET","POST"])
 def register():
     form = RegisterForm()
+    if form.is_submitted():
+        print("submitted")
+
+    if form.validate():
+        print("valid")
+
+    print(form.errors)
     if form.validate_on_submit():
         user_id = User.objects.count()
         user_id += 1
-
+        print("USER_ID" + str(user_id))
         email = form.email.data
         password = form.password.data
         first_name = form.first_name.data
         last_name = form.last_name.data
 
-        user = User(user_id=user_id, email=email, first_name=first_name, last_name=last_name)
-        user.set_password(password)
-        user.save()
+        user_s = User(user_id=user_id, email=email, first_name=first_name, last_name=last_name)
+        user_s.set_password(password)
+        user_s.save()
+
         flash("You are successfully registered!", "success")
         return redirect("/index")
+    else:
+        print("NOT")
     return render_template("register.html", title="Register", form=form, register=True)
 
 
