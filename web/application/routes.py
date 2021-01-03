@@ -58,9 +58,8 @@ def register():
 @app.route("/courses")
 @app.route("/courses/<term>")
 def courses(term="Resul 2021"):
-    with open('/home/lala/Desktop/pers/Blog/web/application/templates/courses.json', 'r') as cs:
-        courseData = json.load(cs)
-    return render_template("courses.html", courses=True, data=courseData['courseData'], term=term)
+    classes = Course.objects.order_by("courseID")
+    return render_template("courses.html", courses=True, data=classes, term=term)
 
 
 @app.route("/enrollment", methods=["GET", "POST"])

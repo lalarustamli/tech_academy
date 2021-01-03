@@ -18,7 +18,7 @@ class User(db.Document):
 
 
 class Course(db.Document):
-    course_id = db.IntField(max_length=10, unique=True)
+    courseID = db.IntField(max_length=10)
     title = db.StringField(max_length=50)
     description = db.StringField(max_length=200)
     credits = db.IntField()
