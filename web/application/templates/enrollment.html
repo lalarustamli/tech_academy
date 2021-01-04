@@ -21,11 +21,11 @@
             <tbody>
             {% for course in data %}
             <tr>
-                <td scope='row'>{{ course['courseID'] }}</td>
-                <td>{{ course['title'] }}</td>
-                <td>{{ course['description'] }}</td>
-                <td>{{ course['credits'] }}</td>
-                <td>{{ course['term'] }}</td>
+                <td scope='row'>{{ course.r2['courseID'] }}</td>
+                <td>{{ course.r2['title'] }}</td>
+                <td>{{ course.r2['description'] }}</td>
+                <td>{{ course.r2['credits'] }}</td>
+                <td>{{ course.r2['term'] }}</td>
             </tr>
             {% endfor %}
             </tbody>

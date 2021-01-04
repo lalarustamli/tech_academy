@@ -14,7 +14,7 @@ class User(db.Document):
         self.password = generate_password_hash(password)
 
     def get_password(self,password):
-        self.password = check_password_hash(self.password,password)
+        return check_password_hash(self.password,password)
 
 
 class Course(db.Document):
@@ -26,4 +26,4 @@ class Course(db.Document):
 
 class Enrollment(db.Document):
     user_id = db.IntField()
-    course_id = db.StringField(max_length=10)
+    courseID = db.StringField(max_length=10)

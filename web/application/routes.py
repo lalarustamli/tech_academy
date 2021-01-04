@@ -34,11 +34,10 @@ def register():
     if form.validate():
         print("valid")
 
-    print(form.errors)
+
     if form.validate_on_submit():
         user_id = User.objects.count()
         user_id += 1
-        print("USER_ID" + str(user_id))
         email = form.email.data
         password = form.password.data
         first_name = form.first_name.data
@@ -64,19 +63,56 @@ def courses(term="Resul 2021"):
 
 @app.route("/enrollment", methods=["GET", "POST"])
 def enrollment():
-    CourseId = request.form.get('courseID')
+    CourseID = request.form.get('courseID')
     CourseTitle = request.form.get('title')
-    user_id = 1
-    if CourseId:
-        if Enrollment.objects(user_id=user_id, course_id=CourseId):
+    user_id = 21
+    if CourseID:
+        if Enrollment.objects(user_id=user_id, courseID=CourseID):
             flash(f"You have already enrolled to {CourseTitle}")
             return redirect("/courses")
         else:
-            Enrollment(user_id=user_id, course_id=CourseId)
+            Enrollment(user_id=user_id, courseID=CourseID).save()
             flash(f"You are enrolled! Congrats")
     term = request.form.get('term')
-    course=None
-    return render_template("enrollment.html", enrollment=True, data=course)
+    data = list(User.objects.aggregate(*[
+        {
+            '$lookup': {
+                'from': 'enrollment',
+                'localField': 'user_id',
+                'foreignField': 'user_id',
+                'as': 'r1'
+            }
+        }, {
+            '$unwind': {
+                'path': '$r1',
+                'includeArrayIndex': 'r1_id',
+                'preserveNullAndEmptyArrays': False
+            }
+        }, {
+            '$lookup': {
+                'from': 'course',
+                'localField': 'r1.courseID',
+                'foreignField': 'courseID',
+                'as': 'r2'
+            }
+        }, {
+            '$unwind': {
+                'path': '$r2',
+                'preserveNullAndEmptyArrays': False
+            }
+        }, {
+            '$match': {
+                'user_id': user_id
+            }
+        }, {
+            '$sort': {
+                'courseID': 1
+            }
+        }
+    ]))
+    print(data)
+
+    return render_template("enrollment.html", enrollment=True, data=data)
 
 @app.route("/api/")
 @app.route("/api/<idx>")
